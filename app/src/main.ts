@@ -19,11 +19,12 @@ const MOTION_LAB = false;
 startBgCycles();
 startBgDrifts();
 startCarousels();
-pinBackgrounds();
 const deck = startDeck();
 if (MOTION_LAB) startLab();
 startHomeGlitch();
 startTitleZooms();
+// Effects must capture and wrap their backgrounds before pinning moves them out of the slides.
+pinBackgrounds();
 document.documentElement.classList.remove('booting');
 
 // On a phone (no deck), a slide with a content effect from the catalog plays it
