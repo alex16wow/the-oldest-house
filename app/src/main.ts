@@ -16,14 +16,15 @@ import { startCarousels } from './carousel';
 /** One switch for the Motion Lab: false hides it, the assigned effects keep working. */
 const MOTION_LAB = false;
 
-const deck = startDeck();
-if (MOTION_LAB) startLab();
-startHomeGlitch();
-startTitleZooms();
 startBgCycles();
 startBgDrifts();
 startCarousels();
 pinBackgrounds();
+const deck = startDeck();
+if (MOTION_LAB) startLab();
+startHomeGlitch();
+startTitleZooms();
+document.documentElement.classList.remove('booting');
 
 // On a phone (no deck), a slide with a content effect from the catalog plays it
 // as it scrolls into view; the panels' own reveal stays with the site's script.

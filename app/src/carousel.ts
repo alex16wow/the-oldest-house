@@ -84,7 +84,7 @@ function setup(car: Car) {
     car.scrollLeft = 0;
     nextBg?.classList.add('on');
     document.dispatchEvent(new CustomEvent('oh:car', { detail: car }));
-    if (isCur()) playItem(next, animate ? 0.75 : 0.35); // the heading's effect starts once the slide has landed
+    if (isCur()) playItem(next, 0); // respond to the tab immediately
     try { history.replaceState(null, '', '#' + next.id); } catch {} // a sandboxed frame may refuse it
     const done = () => {
       if (old !== next) old.classList.remove('on');
@@ -99,22 +99,17 @@ function setup(car: Car) {
     Object.assign(old.style, { position: 'absolute', top: top - car.scrollTop + 'px', left: '0', right: '0' });
     car.scrollTop = 0;
     const W = car.clientWidth;
-    // The newcomer waits off screen until its pictures are decoded and painted (phones paint
-    // late otherwise: the picture pops in mid-slide), then everything moves on the GPU.
+    // Images are warmed during setup; never put decoding on the input path.
     const moving = [old, next, oldBg, nextBg].filter(Boolean) as HTMLElement[];
     moving.forEach((el) => (el.style.willChange = 'transform'));
     gsap.set(next, { x: dir * W, force3D: true });
     if (nextBg && nextBg !== oldBg) gsap.set(nextBg, { xPercent: dir * 100, force3D: true });
-    anim = gsap.timeline({ paused: true, onComplete: () => { moving.forEach((el) => (el.style.willChange = '')); done(); }, defaults: { ease: 'power3.inOut', force3D: true } });
-    const imgs = [...next.querySelectorAll('img'), ...(nextBg ? [nextBg] : [])].filter((x): x is HTMLImageElement => x instanceof HTMLImageElement);
-    const ready = Promise.race([Promise.all(imgs.map((i) => i.decode?.().catch(() => {}))), new Promise((r) => setTimeout(r, 250))]);
-    const tl = anim;
-    ready.then(() => requestAnimationFrame(() => requestAnimationFrame(() => tl.play())));
-    anim.fromTo(old, { x: 0 }, { x: -dir * W, duration: 0.8 }, 0)
-      .fromTo(next, { x: dir * W }, { x: 0, duration: 0.8 }, 0);
+    anim = gsap.timeline({ onComplete: () => { moving.forEach((el) => (el.style.willChange = '')); done(); }, defaults: { ease: 'power2.out', force3D: true } });
+    anim.fromTo(old, { x: 0 }, { x: -dir * W, duration: 0.35 }, 0)
+      .fromTo(next, { x: dir * W }, { x: 0, duration: 0.35 }, 0);
     if (oldBg && nextBg && oldBg !== nextBg)
-      anim.fromTo(oldBg, { xPercent: 0 }, { xPercent: -dir * 100, duration: 1.15 }, 0)
-        .fromTo(nextBg, { xPercent: dir * 100 }, { xPercent: 0, duration: 1.15 }, 0);
+      anim.fromTo(oldBg, { xPercent: 0 }, { xPercent: -dir * 100, duration: 0.4 }, 0)
+        .fromTo(nextBg, { xPercent: dir * 100 }, { xPercent: 0, duration: 0.4 }, 0);
   }
   car.carGo = go;
   bgs[0]?.classList.add('on');

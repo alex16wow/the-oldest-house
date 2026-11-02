@@ -192,6 +192,7 @@ function textRun(slide: HTMLElement, def: StageDef, variant: string): Run | null
   const p: LoopParams = def.defaults(variant);
   const loop = def.build(text, p) as Loop;
   const tl = loop.timeline;
+  if (slide.classList.contains('car-item')) tl.timeScale(2.5);
   // The demo loops enter, hold, exit. Here: only the entrance, then rest.
   const end = loop.enterEnd ?? tl.duration();
   tl.pause(0);
