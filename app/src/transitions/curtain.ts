@@ -11,8 +11,8 @@ import { gsap } from 'gsap';
 import { defineTransition, panel, sign } from '../interlude/helpers';
 
 // Settings
-const LEAVE = { duration: 0.3, ease: 'power2.inOut' }; // covering
-const ENTER = { duration: 0.35, ease: 'power2.out' }; // revealing
+const LEAVE = { duration: 1, ease: 'power2.inOut' }; // covering
+const ENTER = { duration: 1, ease: 'power2.out' }; // revealing
 const DRIFT = 100; // px the content moves as it goes and comes
 
 /** The mark in the middle of the curtain: a large white inverted pyramid, the House's sign. */
