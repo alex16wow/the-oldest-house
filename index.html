@@ -869,7 +869,7 @@ function build() {
 
   const page = document.getElementById("page");
   // home + sectors: title card -> intro -> panels
-  const HOME_SECTOR = { id: HOME.id, no: "01", en: "The Oldest House", bg: HOME.bg, introBg: BG_LOBBY, introBgs: [BG_LOBBY_2, BG_LOBBY], heading: HOME.heading, text: HOME.text, items: [], home: true };
+  const HOME_SECTOR = { id: HOME.id, no: "01", en: "The Oldest House", bg: HOME.bg, introBg: BG_LOBBY, introBgs: [BG_LOBBY, BG_LOBBY_2], heading: HOME.heading, text: HOME.text, items: [], home: true };
   [HOME_SECTOR, ...SECTORS].forEach((s, si) => {
     const sec = el("section", "sector tone-" + (s.home ? "executive" : s.id) + (s.light ? " astral" : "")); sec.id = s.id; sec.dataset.name = s.en;
     const bg = el("div", "sector-bg"); bg.setAttribute("aria-hidden", "true"); bg.append(mediaBox(s.bg, { zoom: false, eager: si === 0 })); sec.append(bg);
